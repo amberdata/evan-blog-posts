@@ -1,5 +1,0 @@
-#!/usr/bin/expect -f
-spawn ssh ssh -i ~/.ssh/amberdata eazevedo@54.172.127.103
-expect "assword:"
-send "Sh@wnD0gla$$\r"
-interact
