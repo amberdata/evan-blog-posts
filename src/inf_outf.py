@@ -46,6 +46,6 @@ def main():
     # calculate the net flows
     gross_daily["net"] = gross_daily["inflow"] - gross_daily["outflow"]
     # set index to datetime
-    gross_daily.index = [datetime.datetime.fromtimestamp(ts//1000).date() for ts in index]
+    gross_daily.index = [datetime.datetime.fromtimestamp(ts//1000).date() for ts in config.index]
     # Rescale value by 10^8
     return gross_daily/10**8

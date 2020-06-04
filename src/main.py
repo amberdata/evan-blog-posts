@@ -31,7 +31,7 @@ def bitcoin_data():
 def plot(gross_daily, ohlcv):
     fig, ax1 = plt.subplots()
 
-    ax1.set_title(f"Inflow Outflow of {A} Addresses")
+    #ax1.set_title(f"Inflow Outflow of {config.A} Addresses")
     ax1.set_xlabel('time (s)')
     ax1.set_ylabel('Volume')
     ax1.plot(gross_daily)

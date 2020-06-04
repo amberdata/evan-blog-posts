@@ -81,5 +81,5 @@ def daily_inflow_outflow(address, headers, querystring):
         # calculate inflow / outflow
         data = inflow_outflow(payload)
         # get in the format to merge with master inflow/outflow data
-        g = reindex(data, index)
+        g = reindex(data, config.index)
         return g
