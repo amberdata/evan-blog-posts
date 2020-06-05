@@ -6,6 +6,6 @@ docker-compose*
 Dockerfile*
 results/gross_daily.csv
 input/bmex_mult.csv
-notebooks/*
+notebooks
 .setup
 src/__pycache__
