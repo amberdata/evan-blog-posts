@@ -1,4 +1,5 @@
 import os
+import json
 import matplotlib.pyplot as plt
 import datetime
 import pandas as pd
@@ -50,12 +51,14 @@ def plot(gross_daily, ohlcv):
 
 
 def main():
-    gross_daily = inf_outf.main()
+    gross_daily, all_activity = inf_outf.main()
     ohlcv = bitcoin_data()
     if os.getenv("PLOT"):
         plot(gross_daily, ohlcv)
     df_out = gross_daily.join(ohlcv)
     df_out.to_csv("results/gross_daily.csv")
+    with open("results/all_activity.json") as fout:
+        json.dump(all_activity)
 
 
 if __name__ == "__main__":

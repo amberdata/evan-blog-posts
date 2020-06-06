@@ -1,6 +1,6 @@
 import utils
 
-N = 60 # Number of days to consider
+N = 365 # Number of days to consider
 A = None # number of addresses
 P = 20 # the number of addresses to analyze in parallel
 

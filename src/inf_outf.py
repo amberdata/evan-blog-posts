@@ -6,7 +6,7 @@
 import datetime
 import pandas as pd 
 import tqdm
-from concurrent.futures import ThreadPoolExecutor, wait
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import utils, config
 
 
@@ -32,20 +32,25 @@ def main():
     else:
         addresses = df.Address.values
 
+    all_activity = {}
     # calculate inflow/outflow from the addresses in parallel
     for i in tqdm.trange(len(addresses) // config.P):
         with ThreadPoolExecutor(max_workers=4) as executor:
-            futures = [executor.submit(utils.daily_inflow_outflow, addresses[config.P*i+j], \
-                headers, querystring) for j in range(config.P) if i+j < len(addresses)]
-            wait(futures)
-            for future in futures:
+            futures = {executor.submit(utils.daily_inflow_outflow, addresses[config.P*i+j], \
+                headers, querystring): addresses[config.P*i+j] for j in range(config.P) if i+j < len(addresses)}
+            for future in as_completed(futures):
+                address = futures[future]
                 if future.result() is not None:
                     res = future.result()
                     gross_daily += res
+                else:
+                    res = pd.DataFrame()
+                all_activity[address] = res
+
             
     # calculate the net flows
     gross_daily["net"] = gross_daily["inflow"] - gross_daily["outflow"]
     # set index to datetime
     gross_daily.index = [datetime.datetime.fromtimestamp(ts//1000).date() for ts in config.index]
     # Rescale value by 10^8
-    return gross_daily/10**8
+    return gross_daily/10**8, all_activity
