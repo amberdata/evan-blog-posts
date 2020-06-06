@@ -25,7 +25,8 @@ def main():
 
     # Read the data
     print("Loading the addresses")
-    df = pd.read_excel("input/Cluster_addresses_of_Bitmex.xlsx", header=12, skipfooter=3)
+    # df = pd.read_excel("input/Cluster_addresses_of_Bitmex.xlsx", header=12, skipfooter=3)
+    df = pd.read_csv("input/addresses_all.csv")
     # check if we are running the full calculation
     if config.A:
         addresses = df.iloc[:config.A].Address.values
