@@ -1,6 +1,5 @@
 import os
 import json
-import matplotlib.pyplot as plt
 import datetime
 import pandas as pd
 
@@ -28,26 +27,6 @@ def bitcoin_data():
     ohlcv = ohlcv.drop(["open", "high", "low", "timestamp"], axis=1)
     ohlcv.index = [datetime.datetime.fromtimestamp(ts//1000).date() for ts in config.index]
     return ohlcv
-
-def plot(gross_daily, ohlcv):
-    fig, ax1 = plt.subplots()
-
-    #ax1.set_title(f"Inflow Outflow of {config.A} Addresses")
-    ax1.set_xlabel('time (s)')
-    ax1.set_ylabel('Volume')
-    ax1.plot(gross_daily)
-    ax1.tick_params(axis='y')
-    ax1.legend(["inflow", "outflow", "net"], loc=4)
-
-    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-
-    color = 'tab:red'
-    ax2.set_ylabel("price", color=color)  # we already handled the x-label with ax1
-    ax2.plot(ohlcv.close, color=color)
-    ax2.tick_params(axis='y', labelcolor=color)
-
-    fig.tight_layout()
-    plt.show()
 
 
 def main():
