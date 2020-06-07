@@ -37,7 +37,7 @@ def main():
     df_out = gross_daily.join(ohlcv)
     df_out.to_csv("results/gross_daily.csv")
     with open("results/all_activity.json", "w") as fout:
-        json.dump(all_activity)
+        json.dump(all_activity, fout)
 
 
 if __name__ == "__main__":
