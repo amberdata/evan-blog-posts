@@ -44,7 +44,9 @@ def main():
                 res = future.result()
                 if res is not None:
                     gross_daily += res
-                all_activity[address] = res
+                    all_activity[address] = res.to_json()
+                else:
+                    all_activity[address] = {}
 
             
     # calculate the net flows
