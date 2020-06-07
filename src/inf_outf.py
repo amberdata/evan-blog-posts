@@ -41,8 +41,8 @@ def main():
                 headers, querystring): addresses[config.P*i+j] for j in range(config.P) if i+j < len(addresses)}
             for future in as_completed(futures):
                 address = futures[future]
-                if future.result() is not None:
-                    res = future.result()
+                res = future.result()
+                if res is not None:
                     gross_daily += res
                 all_activity[address] = res
 
