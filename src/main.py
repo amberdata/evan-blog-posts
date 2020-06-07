@@ -57,7 +57,7 @@ def main():
         plot(gross_daily, ohlcv)
     df_out = gross_daily.join(ohlcv)
     df_out.to_csv("results/gross_daily.csv")
-    with open("results/all_activity.json") as fout:
+    with open("results/all_activity.json", "w") as fout:
         json.dump(all_activity)
 
 
