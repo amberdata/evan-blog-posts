@@ -44,8 +44,6 @@ def main():
                 if future.result() is not None:
                     res = future.result()
                     gross_daily += res
-                else:
-                    res = pd.DataFrame()
                 all_activity[address] = res
 
             
