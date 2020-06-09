@@ -37,10 +37,11 @@ def get_response(url, headers=None, queryString=None):
     else:
         response = requests.request("GET", url, headers=headers)
     response = json.loads(response.text)
-    if response["title"] == "OK":
-        return response["payload"]
-    else:
-        raise Exception
+    try:
+        if response["title"] == "OK":
+            return response["payload"]
+    except Exception
+        print(response)
         
 def inflow_outflow(data: dict):
     "Returns the inflow and outflow of the payload"
