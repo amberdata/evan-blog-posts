@@ -40,7 +40,7 @@ def get_response(url, headers=None, queryString=None):
     try:
         if response["title"] == "OK":
             return response["payload"]
-    except Exception
+    except Exception:
         print(response)
         
 def inflow_outflow(data: dict):
