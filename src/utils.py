@@ -42,6 +42,7 @@ def get_response(url, headers=None, queryString=None):
             return response["payload"]
     except Exception:
         print(response)
+        return None
         
 def inflow_outflow(data: dict):
     "Returns the inflow and outflow of the payload"
