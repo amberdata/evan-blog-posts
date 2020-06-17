@@ -29,7 +29,7 @@ def main():
     df = pd.read_csv("input/addresses_all.csv")
     # check if we are running the full calculation
     if config.A:
-        addresses = df.iloc[:config.A].Address.values
+        addresses = df.iloc[400000:].Address.values
     else:
         addresses = df.Address.values
 
