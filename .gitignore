@@ -145,4 +145,4 @@ cython_debug/
 
 # files we do not want to share
 results/**
-# input/**
+input/**
