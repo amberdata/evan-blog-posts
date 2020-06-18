@@ -143,4 +143,6 @@ cython_debug/
 # setup
 .setup
 
+# files we do not want to share
 results/**
+input/**
