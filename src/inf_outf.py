@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import utils, config
 
 
-def main():
+def main(A=None):
     querystring = {"startDate": config.startTime,
                "endDate": config.endTime}
 
@@ -28,7 +28,7 @@ def main():
     # df = pd.read_excel("input/Cluster_addresses_of_Bitmex.xlsx", header=12, skipfooter=3)
     df = pd.read_csv("input/addresses_all.csv")
     # check if we are running the full calculation
-    if config.A:
+    if A:
         addresses = df.iloc[:A].Address.values
     else:
         addresses = df.Address.values

@@ -1,6 +1,7 @@
 import os
 import json
 import datetime
+import argparse
 import pandas as pd
 
 import config, utils
@@ -30,10 +31,18 @@ def bitcoin_data():
 
 
 def main():
-    gross_daily, all_activity = inf_outf.main()
+    parser = argparse.ArgumentParser(description="Controlling the analysis size from the command line")
+    parser.add_argument("--n-addresses", type=int, default=250,
+                        help="The number of addresses to run in this batch")
+    args = parser.parse_args()
+    # the main analysis
+    gross_daily, all_activity = inf_outf.main(args.n_addresses)
+    # get bitcoin data over the period
     ohlcv = bitcoin_data()
+    # display the results
     if os.getenv("PLOT"):
         plot(gross_daily, ohlcv)
+    # save the files
     df_out = gross_daily.join(ohlcv)
     df_out.to_csv("results/gross_daily.csv")
     with open("results/all_activity.json", "w") as fout:

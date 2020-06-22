@@ -1,7 +1,6 @@
 import utils
 
 N = 365 # Number of days to consider
-A = 100000 # number of addresses
 P = 20 # the number of addresses to analyze in parallel
 
 startTime, endTime = utils.start_end_time()
