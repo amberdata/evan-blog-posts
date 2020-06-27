@@ -1,0 +1,3 @@
+[submodule "bitmex-inflow-outflow"]
+	path = bitmex-inflow-outflow
+	url = https://github.com/amberdata/bitmex-inflow-outflow.git
