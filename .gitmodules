@@ -7,3 +7,6 @@
 [submodule "sharpe-historical"]
 	path = sharpe-historical
 	url = https://github.com/amberdata/sharpe-historical.git
+[submodule "nvt-historical"]
+	path = nvt-historical
+	url = https://github.com/amberdata/nvt-historical.git
