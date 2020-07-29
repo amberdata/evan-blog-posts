@@ -1,2 +1,2 @@
 ## Evan Blog Posts
-Each golder corresponds to a blog post.
+The code base for my blog posts. Each directory corresponds to a blog post.
