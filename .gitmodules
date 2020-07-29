@@ -10,3 +10,6 @@
 [submodule "nvt-historical"]
 	path = nvt-historical
 	url = https://github.com/amberdata/nvt-historical.git
+[submodule "txn-mempool"]
+	path = txn-mempool
+	url = https://github.com/amberdata/txn-mempool.git
