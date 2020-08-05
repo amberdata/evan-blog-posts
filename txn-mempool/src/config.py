@@ -1,0 +1,1 @@
+AMBERDATA_WEBSOCKET_BASE='wss://ws.web3api.io'
