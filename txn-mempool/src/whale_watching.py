@@ -1,12 +1,14 @@
 "Listens to the Bitcoin blockchain and watches for whale activity"
+import ssl
 import websocket
 from log import logger
+import config
 from utils import get_key
 
 
 def on_open(ws):
     """Sends a message upon opening the websocket connection"""
-    logger.info('websocket {} was connected'.format(ws.url))
+    logger.info(f'websocket {ws.url} was connected')
     ws.send(json.dumps({
         'jsonrpc': '2.0',
         'id': 1,
@@ -25,9 +27,9 @@ def main():
     # get the api key
     api_key = get_key()["AMBERDATA_API_KEY"]
     # instantiate the websocket object
-    ws = websocket.WebSocketApp('wss://ws.web3api.io')
+    ws = websocket.WebSocketApp(config.AMBERDATA_WEBSOCKET_BASE)
     # create a header with our api key
-    ws.header = {"x-api-key": api_key}
+    ws.header = {"x-api-key": api_key, "x-amberdata-blockchain-id":"bitcoin-mainnet"}
     # function to open the websocket stream
     ws.on_open = on_open
     # function to perform when we recieve a message

@@ -1,13 +1,15 @@
+import os
 import requests
 import json 
 from dotenv import load_dotenv
 
+
 def get_key():
     "Get the API key from an .env file"
-    if ".env" not in os.listdir("../"):
+    if ".env" not in os.listdir("./"):
         print("Configuring API Key...")
         key = input("Amberdata API Key: ")
-        with open("../.env", "w") as f:
+        with open("./.env", "w") as f:
             f.write(f"AMBERDATA_API_KEY={key}\n")
     load_dotenv(verbose=True)
     return {
