@@ -1,5 +1,6 @@
 "Listens to the Bitcoin blockchain and watches for whale activity"
 import ssl
+import json
 import websocket
 from log import logger
 import config
@@ -13,7 +14,7 @@ def on_open(ws):
         'jsonrpc': '2.0',
         'id': 1,
         'method': 'subscribe',
-        'params': ['pending_transaction']
+        'params': ['pending_transactions']
     }))
     
 def on_message(ws, message):
@@ -29,12 +30,12 @@ def main():
     # instantiate the websocket object
     ws = websocket.WebSocketApp(config.AMBERDATA_WEBSOCKET_BASE)
     # create a header with our api key
-    ws.header = {"x-api-key": api_key, "x-amberdata-blockchain-id":"bitcoin-mainnet"}
+    ws.header = {"x-api-key": api_key, "x-amberdata-blockchain-id": config.BLOCKCHAIN_ID}
     # function to open the websocket stream
     ws.on_open = on_open
     # function to perform when we recieve a message
     ws.on_message = on_message
-    # continuously run the 
+    # continuously keep the connection open
     ws.run_forever(sslopt={'cert_reqs': ssl.CERT_NONE})
     logger.info('main end')
 
