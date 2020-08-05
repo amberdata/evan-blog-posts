@@ -37,4 +37,5 @@ tqdm==4.46.0
 traitlets==4.3.3
 urllib3==1.25.9
 wcwidth==0.1.9
+websocket-client==0.57.0
 xlrd==1.2.0
