@@ -26,8 +26,8 @@ def check_for_whale(data):
     address, value = data["from"], data["value"]
     if value >= config.VALUE_THRESHOLD * 10**8:
         logger.info(f"Whale address: {address[0]}, txn value: {value}")
-        with open("logs/log.csv", "a") as l:
-            l.write(f"{datetime.now()}, {address}, {value}\n")
+        with open("data/results.csv", "a") as d:
+            d.write(f"{datetime.now()}, {address}, {value}\n")
 
 def on_message(ws, message):
     "reacts to messages from the websocket"
@@ -40,7 +40,7 @@ def init():
     "initializes the data file"
     if "results.csv" not in os.listdir("./data"):
         with open("data/results.csv", "w") as d:
-            d.write("timestamp, address, value")
+            d.write("timestamp, address, value\n")
 
 def main():
     # get the api key
