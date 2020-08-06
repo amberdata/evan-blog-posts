@@ -25,6 +25,7 @@ def check_for_whale(data):
             d.write(f"{datetime.now()}, {address}, {value}\n")
 
 async def listen(headers):
+    "Opens the websocket connection and listens for data"
     uri = 'wss://ws.web3api.io'
     async with websockets.connect(uri, extra_headers=headers) as websocket:
         logger.info(f"Connected to Websocket at {uri}")
@@ -35,24 +36,24 @@ async def listen(headers):
             'params': ['pending_transaction']
         })
         await websocket.send(message)
-        while not 0:
+        while True:
             response = await websocket.recv()
             json_message = json.loads(response)
             if json_message.get('params') and json_message.get('params').get('result'):
                 result = json_message.get('params').get('result')
-                print(result)
                 check_for_whale(result)
 
 def main():
     # get the api key
     api_key = get_key()
-    # init
+    # initialize the data file
     init()
     # create a header with our api key
     headers = {
         "x-api-key": api_key["AMBERDATA_API_KEY"],
         "x-amberdata-blockchain-id": "bitcoin-mainnet"
     }
+    # open the connection and start recieving data
     asyncio.get_event_loop().run_until_complete(listen(headers))
     logger.info('main end')
 
