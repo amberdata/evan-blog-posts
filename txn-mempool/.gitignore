@@ -137,4 +137,13 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# vscode
 .vscode/
+
+# logs
+logs/
+!logs/.gitkeep
+
+# data
+data/
+!data/.gitkeep
