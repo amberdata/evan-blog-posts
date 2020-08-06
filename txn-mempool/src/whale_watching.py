@@ -10,6 +10,9 @@ import config
 from utils import get_key
 
 
+# the threshold for whale activity in shatoshiss
+VALUE_THRESHOLD = config.BTC_THRESHOLD * 10**8
+
 def init_data_file():
     "initializes the data file"
     # write a new results file with a header if we do not have one
@@ -21,9 +24,9 @@ def check_for_whale(data):
     "checks whether a specific pending transaction can be suspected whale activity"
     address, value = data["from"], data["value"]
     # check if the value of the pending txn is larger than our threshold
-    if value >= config.VALUE_THRESHOLD * 10**8:
+    if value >= VALUE_THRESHOLD:
         # send the whale activity info to stdout
-        logger.info(f"Whale address: {address[0]}, txn value: {value}")
+        logger.info(f"Whale address: {address[0]}, shatoshis: {value]}")
         # write the data to a csv file
         with open("data/results.csv", "a") as d:
             d.write(f"{datetime.now()}, {address}, {value}\n")
