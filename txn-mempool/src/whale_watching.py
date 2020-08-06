@@ -26,7 +26,7 @@ def check_for_whale(data):
     # check if the value of the pending txn is larger than our threshold
     if value >= VALUE_THRESHOLD:
         # send the whale activity info to stdout
-        logger.info(f"Whale address: {address[0]}, shatoshis: {value}")
+        logger.info(f"Whale address: {address[0]}, shatoshis: {value}, btc: {round(value/10**8, 3)}")
         # write the data to a csv file
         with open("data/results.csv", "a") as d:
             d.write(f"{datetime.now()}, {address}, {value}\n")
