@@ -1,4 +1,5 @@
 "Listens to the Bitcoin blockchain and watches for whale activity"
+import os
 import ssl
 import json
 from datetime import datetime
@@ -35,9 +36,17 @@ def on_message(ws, message):
         result = json_message.get('params').get('result')
         check_for_whale(result)
 
+def init():
+    "initializes the data file"
+    if "results.csv" not in os.listdir("./data"):
+        with open("data/results.csv", "w") as d:
+            d.write("timestamp, address, value")
+
 def main():
     # get the api key
     api_key = get_key()["AMBERDATA_API_KEY"]
+    # create the datafile if there is not one
+    init()
     # instantiate the websocket object
     ws = websocket.WebSocketApp(config.AMBERDATA_WEBSOCKET_BASE)
     # create a header with our api key
