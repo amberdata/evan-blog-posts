@@ -10,7 +10,7 @@ import config
 from utils import get_key
 
 
-def init():
+def init_data_file():
     "initializes the data file"
     # write a new results file with a header if we do not have one
     if "results.csv" not in os.listdir("./data"):
@@ -37,7 +37,7 @@ async def on_response(response):
         result = json_message.get('params').get('result')
         check_for_whale(result)
 
-async def listen(headers):
+async def listen(api_key):
     "Opens the websocket connection and listens for data"
     # the amberdata websocket uri
     uri = 'wss://ws.web3api.io'
@@ -69,7 +69,7 @@ def main():
     # get the api key
     api_key = get_key()
     # initialize the data file
-    init()
+    init_data_file()
     # open the connection and start recieving data
     asyncio.get_event_loop().run_until_complete(listen(api_key))
     # keep listening 
