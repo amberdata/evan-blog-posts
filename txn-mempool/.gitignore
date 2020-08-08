@@ -140,10 +140,6 @@ cython_debug/
 # vscode
 .vscode/
 
-# logs
-logs/
-!logs/.gitkeep
-
 # data
-data/
+data/*
 !data/.gitkeep
