@@ -49,27 +49,30 @@ async def listen(api_key):
         "x-api-key": api_key["AMBERDATA_API_KEY"],
         "x-amberdata-blockchain-id": "bitcoin-mainnet"
     }
-    # create the websocket item
-    async with websockets.connect(uri, extra_headers=headers) as websocket:
-        logger.info(f"Connected to Websocket at {uri}")
-        # the message to pass for pending transactions
-        message = json.dumps({
-            'jsonrpc': '2.0',
-            'id': 1,
-            'method': 'subscribe',
-            'params': ['pending_transaction']
-        })
-        # send our message to the websocket
-        await websocket.send(message)
-        # continuously listen for data and process
-        while True:
-            try:
-                # the response from the websocket
-                response = await websocket.recv()
-                # interpret the response
-                await on_response(response)
-            except websockets.exceptions.PayloadTooBig:
-                continue
+    # outer loop
+    while True:
+        # create the websocket item
+        async with websockets.connect(uri, extra_headers=headers) as websocket:
+            logger.info(f"Connected to Websocket at {uri}")
+            # the message to pass for pending transactions
+            message = json.dumps({
+                'jsonrpc': '2.0',
+                'id': 1,
+                'method': 'subscribe',
+                'params': ['pending_transaction']
+            })
+            # send our message to the websocket
+            await websocket.send(message)
+            # continuously listen for data and process
+            while True:
+                try:
+                    # the response from the websocket
+                    response = await websocket.recv()
+                    # interpret the response
+                    await on_response(response)
+                except websockets.exceptions.ConnectionClosed as e:
+                    logger.error(str(e))
+                    break
                     
 def main():
     # get the api key
