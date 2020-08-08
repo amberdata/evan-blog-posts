@@ -63,11 +63,14 @@ async def listen(api_key):
         await websocket.send(message)
         # continuously listen for data and process
         while True:
-            # the response from the websocket
-            response = await websocket.recv()
-            # interpret the response
-            await on_response(response)
-
+            try:
+                # the response from the websocket
+                response = await websocket.recv()
+                # interpret the response
+                await on_response(response)
+            except websockets.exceptions.PayloadTooBig:
+                continue
+                    
 def main():
     # get the api key
     api_key = get_key()
