@@ -18,7 +18,7 @@ def init_data_file():
     # write a new results file with a header if we do not have one
     if "results.csv" not in os.listdir("./data"):
         with open("data/results.csv", "w") as d:
-            d.write("timestamp, address, value\n")
+            d.write("timestamp; address; value\n")
 
 def check_for_whale(data):
     "checks whether a specific pending transaction can be suspected whale activity"
@@ -29,7 +29,7 @@ def check_for_whale(data):
         logger.info(f"Whale address: {address[0]}, shatoshis: {value}, btc: {round(value/10**8, 3)}")
         # write the data to a csv file
         with open("data/results.csv", "a") as d:
-            d.write(f"{datetime.now()}, {address}, {value}\n")
+            d.write(f"{datetime.now()}; {address}; {value}\n")
 
 async def on_response(response):
     "executes when we get a response back"
