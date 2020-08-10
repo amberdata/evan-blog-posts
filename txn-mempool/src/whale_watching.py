@@ -67,12 +67,21 @@ async def listen(api_key):
             while True:
                 try:
                     # the response from the websocket
-                    response = await websocket.recv()
-                    # interpret the response
-                    await on_response(response)
-                except websockets.exceptions.ConnectionClosed as e:
+                    response = await asyncio.wait_for(websocket.recv(), timeout=25)
+                    
+                except (asyncio.TimeoutError, websockets.exceptions.ConnectionClosed) as e:
                     logger.error(str(e))
-                    break
+                    try:
+                        pong = await websocket.ping()
+                        await asyncio.wait_for(pong, timeout=100)
+                        logger.debug('Ping OK, keeping connection alive...')
+                        continue
+                    except:
+                        # sleep for 30 seconds
+                        await asyncio.sleep(30)
+                        break  # inner loop
+                # interpret the response
+                await on_response(response)
                     
 def main():
     # get the api key
