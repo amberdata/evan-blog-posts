@@ -18,18 +18,18 @@ def init_data_file():
     # write a new results file with a header if we do not have one
     if "results.csv" not in os.listdir("./data"):
         with open("data/results.csv", "w") as d:
-            d.write("timestamp; address; value\n")
+            d.write("timestamp; from; to; hash; value\n")
 
 def check_for_whale(data):
     "checks whether a specific pending transaction can be suspected whale activity"
-    address, value = data["from"], data["value"]
+    add_from, add_to, hash_num, value = data['from'], data['to'], data['hash'], data['value']
     # check if the value of the pending txn is larger than our threshold
     if value >= VALUE_THRESHOLD:
         # send the whale activity info to stdout
-        logger.info(f"Whale address: {address[0]}, shatoshis: {value}, btc: {round(value/10**8, 3)}")
+        logger.info(f"Whale address: {add_from[0]}, shatoshis: {value}, btc: {round(value/10**8, 3)}")
         # write the data to a csv file
         with open("data/results.csv", "a") as d:
-            d.write(f"{datetime.now()}; {address}; {value}\n")
+            d.write(f"{datetime.now()}; {add_from}; {add_to}; {hash_num}; {value}\n")
 
 async def on_response(response):
     "executes when we get a response back"
@@ -41,7 +41,7 @@ async def on_response(response):
         check_for_whale(result)
 
 async def listen(api_key):
-    "Opens the websocket connection and listens for data"
+    "Opens the websocket connection and listens for pending transactions"
     # the amberdata websocket uri
     uri = 'wss://ws.web3api.io'
     # our headers for the connection
@@ -68,7 +68,6 @@ async def listen(api_key):
                 try:
                     # the response from the websocket
                     response = await asyncio.wait_for(websocket.recv(), timeout=25)
-                    
                 except (asyncio.TimeoutError, websockets.exceptions.ConnectionClosed) as e:
                     logger.error(str(e))
                     try:
