@@ -68,6 +68,7 @@ async def listen(api_key):
                 try:
                     # the response from the websocket
                     response = await asyncio.wait_for(websocket.recv(), timeout=25)
+                    print(response)
                 except Exception as e:
                     logger.error(str(e))
                     try:
