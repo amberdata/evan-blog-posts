@@ -57,7 +57,7 @@ async def listen(api_key):
             # the message to pass for pending transactions
             message = json.dumps({
                 'jsonrpc': '2.0',
-                'id': 1,
+                'id': 2,
                 'method': 'subscribe',
                 'params': ['pending_transaction']
             })
