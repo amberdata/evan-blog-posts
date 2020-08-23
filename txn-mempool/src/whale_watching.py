@@ -47,7 +47,7 @@ async def listen(api_key):
     # our headers for the connection
     headers = {
         "x-api-key": api_key["AMBERDATA_API_KEY"],
-        "x-amberdata-blockchain-id": "bitcoin-mainnet"
+        "x-amberdata-blockchain-id": "408fa195a34b533de9ad9889f076045e"
     }
     # outer loop
     while True:
