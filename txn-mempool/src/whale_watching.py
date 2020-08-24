@@ -47,7 +47,7 @@ async def listen(api_key):
     # our headers for the connection
     headers = {
         "x-api-key": api_key["AMBERDATA_API_KEY"],
-        "x-amberdata-blockchain-id": "408fa195a34b533de9ad9889f076045e"
+        "x-amberdata-blockchain-id": "bitcoin-mainnet"
     }
     # outer loop
     while True:
@@ -59,7 +59,7 @@ async def listen(api_key):
                 'jsonrpc': '2.0',
                 'id': 2,
                 'method': 'subscribe',
-                'params': ['pending_transaction']
+                'params': ["token_transfer"]
             })
             # send our message to the websocket
             await websocket.send(message)
@@ -68,6 +68,7 @@ async def listen(api_key):
                 try:
                     # the response from the websocket
                     response = await asyncio.wait_for(websocket.recv(), timeout=25)
+                    print(response)
                 except Exception as e:
                     logger.error(str(e))
                     try:
