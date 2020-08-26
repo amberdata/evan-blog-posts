@@ -23,7 +23,6 @@ class ListenMempool:
         # the amberdata websocket uri
         self.uri = 'wss://ws.web3api.io'
 
-
     def init_data_file(self):
         "initializes the data file"
         # write a new results file with a header if we do not have one
@@ -32,7 +31,6 @@ class ListenMempool:
                 # the target is the wallet column
                 d.write("timestamp; from; to; hash; value; wallet\n")
 
-    
     def init_addresses(self):
         "loads the wallet addresses"
         # read in the data from csv
@@ -42,7 +40,6 @@ class ListenMempool:
         # put the addresses in the class 
         self.addresses = df.values
 
-
     def init_bf(self):
         "initializes the bloom filter"
         # number of objects in the bloom filter
@@ -50,13 +47,12 @@ class ListenMempool:
         # the bloom filter object
         self.bloomf = BloomFilter(n, config.P)
         # display some info about the filter
-        print(f"Size of bit array:{self.bloomf.size}") 
-        print(f"False positive Probability:{self.bloomf.fp_prob}") 
-        print(f"Number of hash functions:{self.bloomf.hash_count}") 
+        print(f"Bloom Filter stats:\n\tSize of bit array: {self.bloomf.size}") 
+        print(f"\tFalse positive Probability: {self.bloomf.fp_prob}") 
+        print(f"\tNumber of hash functions: {self.bloomf.hash_count}") 
         # iteratively add addresses to the bloom filter
         for address in self.addresses:
             self.bloomf.add(address)
-
 
     def query_bf(self, l_from, l_to):
         """ queries the bloom filter given a list of addresses from and to
@@ -76,8 +72,7 @@ class ListenMempool:
         for address in l_to:
             if self.bloomf.check(address):
                 b_to = True 
-        return 1*l_from + 2*l_to
-
+        return 1*b_from + 2*b_to
 
     def check_for_wallet(self, data):
         "checks whether a specific pending transaction can be from a bitmex wallet"
@@ -92,7 +87,6 @@ class ListenMempool:
             with open("data/results.csv", "a") as d:
                 d.write(f"{datetime.now()}; {add_from}; {add_to}; {hash_num}; {value}; {wallet}\n")
 
-
     async def on_response(self, response):
         "executes when we get a response back"
         # load the response as a dictionary
@@ -103,7 +97,6 @@ class ListenMempool:
             result = json_message.get('params').get('result')
             # check if the transaction is engaging with one of the wallets
             self.check_for_wallet(result)
-
 
     async def listen(self):
         "Opens the websocket connection and listens for pending transactions"
@@ -122,7 +115,7 @@ class ListenMempool:
                     'jsonrpc': '2.0',
                     'id': 2,
                     'method': 'subscribe',
-                    'params': ["token_transfer"]
+                    'params': ["pending_transaction"]
                 })
                 # send our message to the websocket
                 await websocket.send(message)
