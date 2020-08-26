@@ -66,10 +66,10 @@ class ListenMempool:
         b_from, b_to = False, False
         # check the from address(es)
         for address in l_from:
-            if self.bloomf.check(address):
+            if self.bloomf.check(address) or address[:5]=='3BMEX' or address[:7]=='3BitMEX':
                 b_from = True
         # check the to address(es)
-        for address in l_to:
+        for address in l_to or address[:5]=='3BMEX' or address[:7]=='3BitMEX':
             if self.bloomf.check(address):
                 b_to = True 
         return 1*b_from + 2*b_to
@@ -79,10 +79,15 @@ class ListenMempool:
         add_from, add_to, hash_num, value = data['from'], data['to'], data['hash'], data['value']
         # check if the value of the pending txn is larger than our threshold
         if value >= self.VALUE_THRESHOLD:
-            # send the whale activity info to stdout
-            logger.info(f"Large transaction: From: {add_from[0]}, To: {add_to[0]}, btc: {round(value/10**8, 3)}")
             # query the bloom filter
             wallet = self.query_bf(add_from, add_to)
+            if wallet == 1:
+                status = 'from'
+            elif wallet == 2:
+                status = 'to'
+            else: status = 'neither'
+            # log the large transaction
+            logger.info(f"Large transaction: From: {add_from[0]}, To: {add_to[0]}, btc: {round(value/10**8, 3)}, status: {status}")
             # write the data to a csv file
             with open("data/results.csv", "a") as d:
                 d.write(f"{datetime.now()}; {add_from}; {add_to}; {hash_num}; {value}; {wallet}\n")
