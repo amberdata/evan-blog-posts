@@ -1,5 +1,6 @@
 appnope==0.1.0
 backcall==0.1.0
+bitarray==1.5.3
 certifi==2020.4.5.1
 chardet==3.0.4
 cycler==0.10.0
@@ -14,6 +15,7 @@ jupyter-core==4.6.3
 kiwisolver==1.2.0
 lxml==4.5.2
 matplotlib==3.2.1
+mmh3==2.5.1
 numpy==1.18.4
 pandas==1.0.3
 pandas-datareader==0.9.0
@@ -38,4 +40,5 @@ traitlets==4.3.3
 urllib3==1.25.9
 wcwidth==0.1.9
 websocket-client==0.57.0
+websockets==8.1
 xlrd==1.2.0
