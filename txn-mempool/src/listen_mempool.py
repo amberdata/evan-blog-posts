@@ -17,6 +17,7 @@ from bloomfilter import BloomFilter
 
 
 class ListenMempool:
+    "Opens a websocket and records large transactions in the bitcoin mempool"
     def __init__(self):
         # the threshold for whale activity in shatoshiss
         self.VALUE_THRESHOLD = config.BTC_THRESHOLD * 10**8
@@ -28,11 +29,11 @@ class ListenMempool:
         # write a new results file with a header if we do not have one
         if "results.csv" not in os.listdir("data"):
             with open("data/results.csv", "w") as d:
-                # the target is the wallet column
-                d.write("timestamp; from; to; hash; value; wallet\n")
+                # the target is the exchange column
+                d.write("timestamp; from; to; hash; value; exchange\n")
 
     def init_addresses(self):
-        "loads the wallet addresses"
+        "loads the BitMEX wallet addresses"
         # read in the data from csv
         df = pd.read_csv("data/addresses_all.csv", index_col=0)
         # drop an N/A values
@@ -69,8 +70,8 @@ class ListenMempool:
             if self.bloomf.check(address) or address[:5]=='3BMEX' or address[:7]=='3BitMEX':
                 b_from = True
         # check the to address(es)
-        for address in l_to or address[:5]=='3BMEX' or address[:7]=='3BitMEX':
-            if self.bloomf.check(address):
+        for address in l_to:
+            if self.bloomf.check(address) or address[:5]=='3BMEX' or address[:7]=='3BitMEX':
                 b_to = True 
         return 1*b_from + 2*b_to
 
@@ -80,17 +81,17 @@ class ListenMempool:
         # check if the value of the pending txn is larger than our threshold
         if value >= self.VALUE_THRESHOLD:
             # query the bloom filter
-            wallet = self.query_bf(add_from, add_to)
-            if wallet == 1:
+            exchange = self.query_bf(add_from, add_to)
+            if exchange == 1:
                 status = 'from'
-            elif wallet == 2:
+            elif exchange == 2:
                 status = 'to'
             else: status = 'neither'
             # log the large transaction
             logger.info(f"Large transaction: From: {add_from[0]}, To: {add_to[0]}, btc: {round(value/10**8, 3)}, status: {status}")
             # write the data to a csv file
             with open("data/results.csv", "a") as d:
-                d.write(f"{datetime.now()}; {add_from}; {add_to}; {hash_num}; {value}; {wallet}\n")
+                d.write(f"{datetime.now()}; {add_from}; {add_to}; {hash_num}; {value}; {exchange}\n")
 
     async def on_response(self, response):
         "executes when we get a response back"
