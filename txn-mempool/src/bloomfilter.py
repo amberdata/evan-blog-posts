@@ -6,6 +6,9 @@ class BloomFilter(object):
   
     ''' 
     Class for Bloom filter, using murmur3 hash function 
+
+    Code taken from GeeksForGeeks.com 
+    https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
     '''
   
     def __init__(self, items_count,fp_prob): 

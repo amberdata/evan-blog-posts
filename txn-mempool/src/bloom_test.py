@@ -1,3 +1,7 @@
+""" Code taken from GeeksForGeeks.com 
+    https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
+"""
+
 from bloomfilter import BloomFilter 
 from random import shuffle 
   
