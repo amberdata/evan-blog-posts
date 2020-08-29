@@ -114,7 +114,7 @@ class ListenMempool:
         # outer loop
         while True:
             # create the websocket item
-            async with websockets.connect(self.uri, extra_headers=headers) as websocket:
+            async with websockets.connect(self.uri, extra_headers=headers, ping_interval=None) as websocket:
                 logger.info(f"Connected to Websocket at {self.uri}")
                 # the message to pass for pending transactions
                 message = json.dumps({
