@@ -143,4 +143,4 @@ cython_debug/
 # data
 data/*
 !data/.gitkeep
-!data/results_08-14_08-15.csv 
+!data/results.csv 

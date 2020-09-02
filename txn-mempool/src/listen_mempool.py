@@ -15,7 +15,6 @@ from utils import get_key
 from bloomfilter import BloomFilter
 
 
-
 class ListenMempool:
     "Opens a websocket and records large transactions in the bitcoin mempool"
     def __init__(self):
